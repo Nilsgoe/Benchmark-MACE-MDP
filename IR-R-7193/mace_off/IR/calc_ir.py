@@ -11,7 +11,7 @@ from mace.calculators import mace_off
 
 # CONFIG
 model_base_path = "../MACE-MDP.model"
-xyz_file = "../../datbase_IR7193_wB97MD3.xyz"  # big file with multiple molecules
+xyz_file = "../../datbase_IR-R-7193_wB97MD3.xyz"  # big file with multiple molecules
 model_sizes = ["small"]#,"medium", "large"]#"small",
 
 # Dipole calculator for IR

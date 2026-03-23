@@ -7,17 +7,17 @@ import matplotlib.pyplot as plt
 from ase import units
 from ase.optimize import BFGS
 from mace.calculators.mace import MACECalculator
-from mace.calculators import mace_off
-import traceback
+from mace.calculators import mace_omol
 
 # CONFIG
-model_base_path = "MACE-MDP.model"
-xyz_file = "../datbase_IR-R-7193_wB97MD3.xyz"  # the big file with multiple molecules
-model_sizes = ["small"]#, "medium", "large"]
+model_base_path = "../MACE-MDP.model"
+xyz_file = "../../datbase_IR-R-7193_wB97MD3.xyz"  # big file with multiple molecules
+model_sizes = ["extra_large"]#"small",
 
-polar_calc = MACECalculator(model_paths=model_base_path,
-                            model_type="DipolePolarizabilityMACE",
-                            device="cuda", default_dtype="float64")
+# Dipole calculator for IR
+dipole_calc = MACECalculator(model_paths=model_base_path,
+                             model_type="DipoleMACE",
+                             device="cuda", default_dtype="float64")
 
 # Function to parse name
 def parse_name_from_comment(comment):
@@ -25,7 +25,7 @@ def parse_name_from_comment(comment):
     return match.group(1) if match else "unknown"
 
 # Lorentzian broadening
-def broaden_spectrum_lorentzian(freqs, intens, fwhm=30.0, x_min=0, x_max=4000, step=1.0):
+def broaden_spectrum_lorentzian(freqs, intens, fwhm=10.0, x_min=0, x_max=4000, step=1.0):
     x = np.arange(x_min, x_max + step, step, dtype=np.float64)
     gamma = fwhm / 2.0
     spec = np.zeros_like(x)
@@ -33,7 +33,7 @@ def broaden_spectrum_lorentzian(freqs, intens, fwhm=30.0, x_min=0, x_max=4000, s
         spec += I * (gamma / ((x - f0)**2 + gamma**2))
     return x, spec
 
-# Custom BFGS
+# Custom BFGS to count steps
 class BFGSWithCount(BFGS):
     def run(self, fmax=None, steps=None):
         self.step_count = 0
@@ -45,7 +45,7 @@ class BFGSWithCount(BFGS):
         return converged
 
 # Read molecules
-all_atoms = read(xyz_file, index=":")  # list of Atoms objects
+all_atoms = read(xyz_file, index=":")
 all_comments = []
 with open(xyz_file, "r") as f:
     lines = f.readlines()
@@ -59,10 +59,10 @@ with open(xyz_file, "r") as f:
 # Run for each model size
 for size in model_sizes:
     print(f"Processing model size: {size}")
-    output_dir = f"raman_results_{size}_SPICE"
+    output_dir = f"ir_results_{size}_SPICE"
     os.makedirs(output_dir, exist_ok=True)
-    
-    off_calc = mace_off(model=size, default_dtype="float64", device="cuda")
+
+    off_calc = mace_omol(model=size, default_dtype="float64", device="cuda")
     success_records = []
 
     for i, (atoms, comment) in enumerate(zip(all_atoms, all_comments)):
@@ -72,10 +72,8 @@ for size in model_sizes:
             n_atoms = len(atoms)
             masses = atoms.get_masses()
 
-            # Assign MACE OFF calculator
+            # Assign OFF calculator for Hessian / frequencies
             atoms.calc = off_calc
-
-            # Geometry optimization
             dyn = BFGSWithCount(atoms)
             dyn.run(fmax=0.002, steps=5000)
 
@@ -91,76 +89,46 @@ for size in model_sizes:
             modes = vecs.T.reshape(3*n_atoms, n_atoms, 3)
             modes *= masses[np.newaxis, :, np.newaxis]**-0.5
 
-            # Raman intensities
-            tot_int, iso_int, ani_int = [], [], []
+            # IR intensities
+            intensities = []
             pos0 = atoms.get_positions().copy()
-            beta = 1.0 / (units.kB * 298.0)
-            nu0 = 1e7 / 632.8
 
             for i_mode, mode in enumerate(modes):
                 dpos = mode * 1e-3
                 atoms.set_positions(pos0 + dpos)
-                alpha_p = polar_calc.get_property('polarizability', atoms)
+                mu_p = dipole_calc.get_property('dipole', atoms)
                 atoms.set_positions(pos0 - dpos)
-                alpha_m = polar_calc.get_property('polarizability', atoms)
+                mu_m = dipole_calc.get_property('dipole', atoms)
                 atoms.set_positions(pos0)
-                deriv = (alpha_p - alpha_m) / (2e-3)
-                a_iso = np.trace(deriv)/3.0
-                a_ani_sq = 0.5*((deriv[0,0]-deriv[1,1])**2+(deriv[1,1]-deriv[2,2])**2+(deriv[2,2]-deriv[0,0])**2
-                                +6*(deriv[0,1]**2 + deriv[1,2]**2 + deriv[2,0]**2))
-                bose = 1
-                if freq[i_mode] > 5:
-                    disp = 1
-                    I_iso = 45.0*a_iso**2*bose*disp
-                    I_ani = 7.0*a_ani_sq*bose*disp
-                    I_tot = I_iso + I_ani
-                else:
-                    I_iso = I_ani = I_tot = 0.0
-                iso_int.append(I_iso)
-                ani_int.append(I_ani)
-                tot_int.append(I_tot)
+                deriv = (mu_p - mu_m) / (2e-3)
+                I = np.linalg.norm(deriv)**2
+                if freq[i_mode] < 5:
+                    I = 0.0
+                intensities.append(I)
 
-            tot_int = np.array(tot_int)
-            iso_int = np.array(iso_int)
-            ani_int = np.array(ani_int)
+            intensities = np.array(intensities)
 
-            # Broaden spectra
-            x_sim, spec_tot = broaden_spectrum_lorentzian(freq, tot_int)
-            _, spec_iso = broaden_spectrum_lorentzian(freq, iso_int)
-            _, spec_ani = broaden_spectrum_lorentzian(freq, ani_int)
-
-            # Normalize
-            spec_tot /= spec_tot.max()
-            spec_iso /= spec_tot.max()
-            spec_ani /= spec_tot.max()
+            # Broaden spectrum
+            x_sim, spec = broaden_spectrum_lorentzian(freq, intensities)
+            spec /= spec.max()  # normalize
 
             # Save CSV
-            csv_path = os.path.join(output_dir, f"{name}_raman_norm.csv")
-            pd.DataFrame({
-                'cm1': x_sim,
-                'total': spec_tot,
-                'isotropic': spec_iso,
-                'anisotropic': spec_ani
-            }).to_csv(csv_path, index=False)
+            csv_path = os.path.join(output_dir, f"{name}_ir_norm.csv")
+            pd.DataFrame({'cm1': x_sim, 'intensity': spec}).to_csv(csv_path, index=False)
 
-            raw_csv_path = os.path.join(output_dir, f"{name}_raman_raw.csv")
-            pd.DataFrame({
-                'frequency_cm1': freq,
-                'total_intensity': tot_int,
-                'isotropic_intensity': iso_int,
-                'anisotropic_intensity': ani_int
-            }).to_csv(raw_csv_path, index=False)
+            raw_csv_path = os.path.join(output_dir, f"{name}_ir_raw.csv")
+            pd.DataFrame({'frequency_cm1': freq, 'intensity': intensities}).to_csv(raw_csv_path, index=False)
 
             # Plot
             plt.figure(figsize=(8,6))
-            plt.plot(x_sim, spec_tot, label='Total')
+            plt.plot(x_sim, spec, label='IR')
             plt.xlim(0, 4000)
-            plt.xlabel('Raman shift (cm⁻¹)')
+            plt.xlabel('IR shift (cm⁻¹)')
             plt.ylabel('Intensity (arb. units)')
-            plt.title(f"{name} Raman spectrum ({size})")
+            plt.title(f"{name} IR spectrum ({size})")
             plt.legend()
             plt.tight_layout()
-            plot_path = os.path.join(output_dir, f"{name}_raman.png")
+            plot_path = os.path.join(output_dir, f"{name}_ir.png")
             plt.savefig(plot_path, dpi=400)
             plt.close()
 

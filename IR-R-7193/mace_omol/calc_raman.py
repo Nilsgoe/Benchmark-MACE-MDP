@@ -12,7 +12,7 @@ import traceback
 
 # CONFIG
 model_base_path = "MACE-MDP.model"
-xyz_file = "../datbase_IR7193_wB97MD3.xyz"  # the big file with multiple molecules
+xyz_file = "../datbase_IR-R-7193_wB97MD3.xyz"  # the big file with multiple molecules
 output_dir = "raman_results_omol_actvity_full_SPICE"
 os.makedirs(output_dir, exist_ok=True)
 
