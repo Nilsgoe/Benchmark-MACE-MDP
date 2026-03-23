@@ -1,0 +1,122 @@
+Molecule: 01a-water
+NameError: name 'polar_calc' is not defined
+Molecule: 01b-water
+NameError: name 'polar_calc' is not defined
+Molecule: 01c-water
+NameError: name 'polar_calc' is not defined
+Molecule: 02a-formaldehyde
+NameError: name 'polar_calc' is not defined
+Molecule: 02b-formaldehyde
+NameError: name 'polar_calc' is not defined
+Molecule: 02c-formaldehyde
+NameError: name 'polar_calc' is not defined
+Molecule: 03a-methanol_ethyne
+NameError: name 'polar_calc' is not defined
+Molecule: 03b-methanol_ethyne
+NameError: name 'polar_calc' is not defined
+Molecule: 03c-methanol_ethyne
+NameError: name 'polar_calc' is not defined
+Molecule: 04a-acetonitrile
+NameError: name 'polar_calc' is not defined
+Molecule: 04b-acetonitrile
+NameError: name 'polar_calc' is not defined
+Molecule: 04c-acetonitrile
+NameError: name 'polar_calc' is not defined
+Molecule: 05a-nitromethane
+NameError: name 'polar_calc' is not defined
+Molecule: 05b-nitromethane
+NameError: name 'polar_calc' is not defined
+Molecule: 05c-nitromethane
+NameError: name 'polar_calc' is not defined
+Molecule: 06a-acetic_acid
+NameError: name 'polar_calc' is not defined
+Molecule: 06b-acetic_acid
+NameError: name 'polar_calc' is not defined
+Molecule: 06c-acetic_acid
+NameError: name 'polar_calc' is not defined
+Molecule: 07a-oxalic_acid
+NameError: name 'polar_calc' is not defined
+Molecule: 07b-oxalic_acid
+NameError: name 'polar_calc' is not defined
+Molecule: 07c-oxalic_acid
+NameError: name 'polar_calc' is not defined
+Molecule: 08a-vinylene_carbonate
+NameError: name 'polar_calc' is not defined
+Molecule: 08b-vinylene_carbonate
+NameError: name 'polar_calc' is not defined
+Molecule: 08c-vinylene_carbonate
+NameError: name 'polar_calc' is not defined
+Molecule: 09a-acetamide
+NameError: name 'polar_calc' is not defined
+Molecule: 09b-acetamide
+NameError: name 'polar_calc' is not defined
+Molecule: 09c-acetamide
+NameError: name 'polar_calc' is not defined
+Molecule: 10a-imidazole
+NameError: name 'polar_calc' is not defined
+Molecule: 10b-imidazole
+NameError: name 'polar_calc' is not defined
+Molecule: 10c-imidazole
+NameError: name 'polar_calc' is not defined
+Molecule: 11a-isoxazole
+NameError: name 'polar_calc' is not defined
+Molecule: 11b-isoxazole
+NameError: name 'polar_calc' is not defined
+Molecule: 11c-isoxazole
+NameError: name 'polar_calc' is not defined
+Molecule: 12a-pyrazole
+NameError: name 'polar_calc' is not defined
+Molecule: 12b-pyrazole
+NameError: name 'polar_calc' is not defined
+Molecule: 12c-pyrazole
+NameError: name 'polar_calc' is not defined
+Molecule: 13a-triazine
+NameError: name 'polar_calc' is not defined
+Molecule: 13b-triazine
+NameError: name 'polar_calc' is not defined
+Molecule: 13c-triazine
+NameError: name 'polar_calc' is not defined
+Molecule: 14a-cyanoacetamide
+NameError: name 'polar_calc' is not defined
+Molecule: 14b-cyanoacetamide
+NameError: name 'polar_calc' is not defined
+Molecule: 14c-cyanoacetamide
+NameError: name 'polar_calc' is not defined
+Molecule: 15a-cyanoguanidine
+NameError: name 'polar_calc' is not defined
+Molecule: 15b-cyanoguanidine
+NameError: name 'polar_calc' is not defined
+Molecule: 15c-cyanoguanidine
+NameError: name 'polar_calc' is not defined
+Molecule: 16a-triazolidinedione
+NameError: name 'polar_calc' is not defined
+Molecule: 16b-triazolidinedione
+NameError: name 'polar_calc' is not defined
+Molecule: 16c-triazolidinedione
+NameError: name 'polar_calc' is not defined
+Molecule: 17a-oxazolidinone
+NameError: name 'polar_calc' is not defined
+Molecule: 17b-oxazolidinone
+NameError: name 'polar_calc' is not defined
+Molecule: 17c-oxazolidinone
+NameError: name 'polar_calc' is not defined
+Molecule: 18a-succinic_anhydride
+NameError: name 'polar_calc' is not defined
+Molecule: 18b-succinic_anhydride
+NameError: name 'polar_calc' is not defined
+Molecule: 18c-succinic_anhydride
+NameError: name 'polar_calc' is not defined
+Molecule: 19a-benzene
+NameError: name 'polar_calc' is not defined
+Molecule: 19b-benzene
+NameError: name 'polar_calc' is not defined
+Molecule: 19c-benzene
+NameError: name 'polar_calc' is not defined
+Molecule: 20a-maleic_acid
+NameError: name 'polar_calc' is not defined
+Molecule: 20b-maleic_acid
+NameError: name 'polar_calc' is not defined
+Molecule: 20c-maleic_acid
+NameError: name 'polar_calc' is not defined
+Molecule: 21a-p-benzoquinone
+NameError: name 'polar_calc' is not defined
