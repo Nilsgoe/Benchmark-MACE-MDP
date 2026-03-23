@@ -1,0 +1,89 @@
+####################################################################### 
+# 
+# This file contains crystal structure data downloaded from the 
+# Cambridge Structural Database (CSD) hosted by the Cambridge 
+# Crystallographic Data Centre (CCDC).
+# 
+# Full information about CCDC data access policies and citation 
+# guidelines are available at http://www.ccdc.cam.ac.uk/access/V1 
+# 
+# Audit and citation data items may have been added by the CCDC. 
+# Please retain this information to preserve the provenance of 
+# this file and to allow appropriate attribution of the data. 
+# 
+#######################################################################
+
+data_HXACAN01
+#This CIF has been generated from an entry in the Cambridge Structural Database
+_database_code_depnum_ccdc_archive 'CCDC 1178859'
+_database_code_CSD               HXACAN01
+loop_
+_citation_id
+_citation_doi
+_citation_year
+1 10.1107/S0567740876012223 1976
+_audit_creation_method           'Created from the CSD'
+_audit_update_record             
+;
+2025-08-16 downloaded from the CCDC.
+;
+_database_code_NBS               514118
+_chemical_name_common            Acetaminophen
+_chemical_formula_moiety         'C8 H9 N1 O2'
+_chemical_name_systematic        N-(4-Hydroxyphenyl)acetamide
+_chemical_properties_biological  'antiinflammatory agent'
+_chemical_absolute_configuration unk
+_diffrn_ambient_temperature      295
+_exptl_crystal_density_diffrn    1.293
+#These two values have been output from a single CSD field.
+_refine_ls_R_factor_gt           0.072
+_refine_ls_wR_factor_gt          0.072
+_diffrn_radiation_probe          x-ray
+_symmetry_cell_setting           monoclinic
+_symmetry_space_group_name_H-M   'P 21/a'
+_symmetry_Int_Tables_number      14
+_space_group_name_Hall           '-P 2yab'
+loop_
+_symmetry_equiv_pos_site_id
+_symmetry_equiv_pos_as_xyz
+1 x,y,z
+2 1/2-x,1/2+y,-z
+3 -x,-y,-z
+4 1/2+x,1/2-y,z
+_cell_length_a                   12.93(4)
+_cell_length_b                   9.40(1)
+_cell_length_c                   7.10(2)
+_cell_angle_alpha                90
+_cell_angle_beta                 115.9(2)
+_cell_angle_gamma                90
+_cell_volume                     776.272
+_chemical_melting_point          '441-443 K'
+_cell_formula_units_Z            4
+loop_
+_atom_site_label
+_atom_site_type_symbol
+_atom_site_fract_x
+_atom_site_fract_y
+_atom_site_fract_z
+C1 C -0.06110 0.35470 -0.15190
+C2 C 0.01420 0.35620 -0.24420
+C3 C 0.10890 0.26560 -0.17210
+C4 C 0.12900 0.17400 -0.00690
+C5 C 0.05510 0.17440 0.08870
+C6 C -0.03870 0.26410 0.01600
+C7 C -0.21960 0.50670 -0.40030
+C8 C -0.32330 0.58960 -0.41760
+H1 H 0.00100 0.42100 -0.35100
+H2 H 0.16500 0.27200 -0.23000
+H3 H 0.07000 0.11300 0.20400
+H4 H -0.09100 0.26400 0.07900
+H5 H 0.23900 0.05500 0.18400
+H6 H -0.19300 0.45100 -0.12600
+H7 H -0.38200 0.58300 -0.55600
+H8 H -0.32800 0.59300 -0.29800
+H9 H -0.30600 0.70100 -0.42200
+N1 N -0.15990 0.44360 -0.21450
+O1 O 0.22280 0.08510 0.05600
+O2 O -0.19230 0.49770 -0.54580
+
+#END
