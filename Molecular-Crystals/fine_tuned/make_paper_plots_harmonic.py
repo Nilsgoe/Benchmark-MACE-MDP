@@ -25,8 +25,8 @@ ystep = 1.0
 NORMALIZE = True
 XMIN, XMAX = 0, 330
 
-LABEL_X = 245
-LABEL_Y_BASE = 0.18
+LABEL_X = 205
+LABEL_Y_BASE = 0.33
 
 # ==========================================================
 # PLOT STYLE
@@ -90,15 +90,15 @@ def label_for_model(model_key):
     if "omol" in k:
         return "OMOL"
     if "finetuned" in k or "fine" in k:
-        return "FT"
+        return "MACE-ft"
 
     if "off" in k:
         if "small" in k:
-            return "OFF small"
+            return "OFF23(S)"
         if "medium" in k:
-            return "OFF medium"
+            return "OFF23(M)"
         if any(t in k for t in ("extra_large", "xlarge", "xl", "large")):
-            return "OFF large"
+            return "OFF23(L)"
         return "OFF"
     return None
 
@@ -228,7 +228,7 @@ for raw_name in molecules:
 
     # PBE+MBD
     ax.plot(harm_df["cm1"], harm_df["intensity"], "--", color=COLOR_HARM)
-    ax.text(LABEL_X, LABEL_Y_BASE, "PBE+MBD", color=COLOR_HARM, fontsize=17, va="center")
+    ax.text(LABEL_X, LABEL_Y_BASE, "LDA@PBE+MBD", color=COLOR_HARM, fontsize=18, va="center")
 
     plot_idx = 1
     for model_key, x, y in model_series:
@@ -241,24 +241,24 @@ for raw_name in molecules:
 
         lbl = label_for_model(model_key)
         if lbl is not None:
-            ax.text(LABEL_X, LABEL_Y_BASE + yoff, lbl, color=color, fontsize=17, va="center")
+            ax.text(LABEL_X, LABEL_Y_BASE + yoff, lbl, color=color, fontsize=18, va="center")
 
         plot_idx += 1
 
     top = plot_idx
-    ax.plot(exp_df["cm1"], exp_df["intensity"] + top * ystep, ":", color=COLOR_EXP, lw=2.5)
+    ax.plot(exp_df["cm1"], exp_df["intensity"] + top * ystep, ":", color=COLOR_EXP, lw=2.7)
     ax.text(
-        LABEL_X - exp_label_xshift(raw_name),
+        LABEL_X ,
         LABEL_Y_BASE + top * ystep,
-        "Exp",
+        "Experiment",
         color=COLOR_EXP,
-        fontsize=17,
+        fontsize=18,
         va="center",
     )
 
     ax.set_xlim(XMIN, XMAX)
     ax.set_xlabel("Raman shift (cm$^{-1}$)")
-    ax.set_ylabel("Normalized Inentsity")
+    ax.set_ylabel("Normalized Intensity")
     ax.set_yticks([])
 
     # ✅ correct header here too (optional but consistent)
@@ -299,7 +299,7 @@ for base in species:
         axes, [(harm_I, exp_I, models_I, "I"), (harm_II, exp_II, models_II, "II")]
     ):
         ax.plot(harm_df["cm1"], harm_df["intensity"], "--", color=COLOR_HARM)
-        ax.text(LABEL_X, LABEL_Y_BASE, "PBE+MBD", color=COLOR_HARM, fontsize=17, va="center")
+        ax.text(LABEL_X, LABEL_Y_BASE, "LDA@PBE+MBD", color=COLOR_HARM, fontsize=18, va="center")
 
         plot_idx = 1
         for model_key, x, y in model_series:
@@ -312,18 +312,18 @@ for base in species:
 
             lbl = label_for_model(model_key)
             if lbl is not None:
-                ax.text(LABEL_X, LABEL_Y_BASE + yoff, lbl, color=color, fontsize=17, va="center")
+                ax.text(LABEL_X, LABEL_Y_BASE + yoff, lbl, color=color, fontsize=18, va="center")
 
             plot_idx += 1
 
         top = plot_idx
-        ax.plot(exp_df["cm1"], exp_df["intensity"] + top * ystep, ":", color=COLOR_EXP, lw=2.5)
+        ax.plot(exp_df["cm1"], exp_df["intensity"] + top * ystep, ":", color=COLOR_EXP, lw=2.7)
         ax.text(
-            LABEL_X - exp_label_xshift(base),
-            LABEL_Y_BASE + 0.04 + top * ystep,
-            "Exp",
+            LABEL_X ,
+            LABEL_Y_BASE+ top * ystep,
+            "Experiment",
             color=COLOR_EXP,
-            fontsize=17,
+            fontsize=18,
             va="center",
         )
 
@@ -338,7 +338,7 @@ for base in species:
         for spine in ax.spines.values():
             spine.set_linewidth(2.0)
 
-    axes[0].set_ylabel("Normalized Inentsity")
+    axes[0].set_ylabel("Normalized Intensity")
 
     plt.tight_layout(rect=[0, 0, 1, 0.95])  # leave space for suptitle
     out_comb = os.path.join(output_folder, f"{base}_I_II_combined")

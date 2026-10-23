@@ -1,0 +1,11 @@
+SPICE_alpha_ccncc_c0_example.inp
+  Dataset: SPICE-alpha test calculation, neutral ccncc conformer c_0
+  Original archive: /r/n/ngoen/dft_calcs_spice/test_spice.tar.gz
+  Archive member: test_spice/ccncc/c_0/input.inp
+  Coordinates are in bohr because the ORCA simple-input line contains Bohrs.
+
+IR-R-7193_C93992_example.inp
+  Dataset: IR-R-7193, structure HCNOFClBr_C93992 (short ID C93992)
+  Reconstructed exactly from the INPUT FILE block in:
+  /work/gpuviper_ptmp/Raman_7193_IR/bucket_14/HCNOFClBr_C93992/input.out
+  The source calculation used ORCA 6.0.1 and terminated normally.
